@@ -19,4 +19,23 @@ const getProductById = (req, res) => {
     res.status(200).json(product);
 };
 
-module.exports = { getProducts, getProductById };
+const addProduct = (req, res) => {
+    const { name, price, category, stock } = req.body;
+
+    if (!name || !price || !category || !stock) {
+        return res.status(400).json({ message: "All fields are required" });
+    }
+
+    const newProduct = {
+        id: products.length + 1, // Auto-increment ID
+        name,
+        price: parseFloat(price),
+        category,
+        stock: parseInt(stock)
+    };
+
+    products.push(newProduct);
+    res.status(201).json({ message: "Product added successfully", product: newProduct });
+};
+
+module.exports = { getProducts, getProductById, addProduct };
