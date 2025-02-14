@@ -1,0 +1,21 @@
+meta {
+  name: post api
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:5000/api/products
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Cycling Gloves",
+    "price": 19.99,
+    "category": "Accessories",
+    "stock": 15
+  }
+  
+}
