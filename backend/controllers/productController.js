@@ -27,15 +27,33 @@ const addProduct = (req, res) => {
     }
 
     const newProduct = {
-        id: products.length + 1, // Auto-increment ID
+        id: products.length + 1,
         name,
-        price: parseFloat(price),
+        price,
         category,
-        stock: parseInt(stock)
+        stock
     };
 
     products.push(newProduct);
-    res.status(201).json({ message: "Product added successfully", product: newProduct });
+    res.status(201).json(newProduct);
 };
 
-module.exports = { getProducts, getProductById, addProduct };
+const updateProduct = (req, res) => {
+    const productId = parseInt(req.params.id);
+    const { name, price, category, stock } = req.body;
+
+    const productIndex = products.findIndex(p => p.id === productId);
+    
+    if (productIndex === -1) {
+        return res.status(404).json({ message: "Product not found" });
+    }
+
+    if (name) products[productIndex].name = name;
+    if (price) products[productIndex].price = price;
+    if (category) products[productIndex].category = category;
+    if (stock !== undefined) products[productIndex].stock = stock;
+
+    res.status(200).json(products[productIndex]);
+};
+
+module.exports = { getProducts, getProductById, addProduct, updateProduct };
